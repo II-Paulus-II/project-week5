@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "run" : "node server.js",
+    "test": "chmod +x testendpoints.sh && ./testendpoints.sh",
+    "start" : "node server.js",
     "setup" : "node seed.js"
   },
   "keywords": [],
