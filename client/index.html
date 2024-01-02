@@ -4,9 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Game</title>
-  <script src="./app.js" type="module" defer></script>
+  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gameScreen {
+      position: absolute;
+      top: 60%; 
+      left: 50%;
+      width: 450px;
+      height: 450px;
+      margin-top: -225px;
+      margin-left: -225px;
+      border: 1px solid black;
+      background-color: #f2f2f2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      justify-items: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .gameTitle {
+      position: absolute;
+      top: 30%; 
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Brush Script MT', cursive;
+      color: blue;
+      text-align: center;
+    }
+    #startButton {
+     
+      top: 0%; 
+      left: 0%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
 <body>
-  
+  <h1 class="gameTitle">My Memory Game, Click to Get Started!</h1>
+  <button id="startButton">Start Game</button>
+  <div class="gameScreen" id="gameScreen">
+      
+  </div>
+    
+</div>
+
+
 </body>
 </html>
