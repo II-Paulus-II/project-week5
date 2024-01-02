@@ -4,7 +4,7 @@
   "description": "Group Project for Week five. Make a memory game.",
   "main": "index.js",
   "scripts": {
-    "update": "./updategit.sh"
+    "updategit": "chmod +x updategit.sh && ./updategit.sh"
   },
   "author": "",
   "license": "ISC"
