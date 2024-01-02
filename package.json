@@ -1,0 +1,11 @@
+{
+  "name": "group_project",
+  "version": "1.0.0",
+  "description": "Group Project for Week five. Make a memory game.",
+  "main": "index.js",
+  "scripts": {
+    "update": "./updategit.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
