@@ -7,7 +7,7 @@ app.use(cors());
 
 // Basic Endpoint
 app.get("/message", function (request, response) {
-  response.json({ message: "I am the message" });
+  response.json({ message: "newmessage" });
 });
 
 app.listen(8080, () => {
