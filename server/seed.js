@@ -16,12 +16,12 @@ db.exec(`
 
 /* ----- Level Tables ----- */ 
 
-//Level Table
 db.exec(`
   CREATE TABLE IF NOT EXISTS levels (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  memory_id INTEGER,
-  test_id INTEGER
+  memory_qty INTEGER,
+  test_qty INTEGER,
+  time INTEGER
   )
 `);
 
@@ -60,16 +60,15 @@ furnitureArray.forEach(function (item) {
   db.prepare(`INSERT INTO items (name) VALUES (?)`).run(`${item.name}`);
 });
 
-/* ----- Create Level ----- */ 
+/* ----- Create Levels in database ----- */ 
+// Can change location of this code later if decided
 
-db.prepare(`INSERT INTO levels (memory_id, test_id) VALUES (?,?)`).run("1", "1");
+const maxLevels = 10;
+const numItems = furnitureArray.length;
 
-// Count Number of levels -- BOILER PLATE CODE [counting rows] 
-let count = db.prepare(`
-  SELECT COUNT(*) FROM levels
-`).all();
+//populate levels list with increasing number of items
 
-console.log(count);
+
 
 /* ----- Memory Lists ----- */ 
 
@@ -78,3 +77,10 @@ db.prepare(`INSERT INTO memory (item_id) VALUES (?)`).run("1");
 /* ----- Test Lists ----- */
 
 db.prepare(`INSERT INTO test (item_id) VALUES (?)`).run("1");
+
+/* Count Number of items -- BOILER PLATE CODE [counting rows in list] 
+let count = db.prepare(`
+  SELECT COUNT(*) FROM items
+`).all();
+
+console.log(count); */
