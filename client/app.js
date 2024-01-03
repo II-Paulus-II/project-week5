@@ -19,7 +19,7 @@ let furnitureArray = [
 
 /* ----- DOM Objects ----- */ 
 
-let gameScreen = document.getElementById('gameScreen');
+const gameScreen = document.getElementById('gameScreen');
 let startButton = document.getElementById('startButton');
 let startButton1 = document.getElementById('startButton1');
 
@@ -37,14 +37,14 @@ async function Game() {
       const responseM = await fetch(`${serverLocation}/getmemory`);
       const memList = await responseM.json();
       console.log(memList);
-      //renderM(memList);
+      renderM(memList);
       break;
     case 2:
       console.log("game is running at stage 2");
       const responseT = await fetch(`${serverLocation}/getmemory`);
       const testList = await responseT.json();
       console.log(testList);
-      //renderTest(testList);
+      renderT(testList);
       break;
     case 3:
       break;
@@ -140,12 +140,12 @@ function shuffleArray(array) {
 
 
 function renderM(memList){
-    gamescreen.getElementById(gameScreen).innerHTML = '';
-    shuffleArray(memlist)
+    gameScreen.innerHTML = '';
+    const memlist = shuffleArray(memList)
     
     memlist.forEach(function(item) {
-        let htmlObject= createhtmlObject(item)
-        gamescreen.appendchild(htmlObject)
+        let htmlObject= createHtmlObject(item)
+        gameScreen.appendChild(htmlObject)
         
         
     });
@@ -154,14 +154,15 @@ function renderM(memList){
 
 
 function renderT(memList){
-    let tForm = document.createElement('form')
-    gamescreen.getElementById(gameScreen).innerHTML = '';
-    shuffleArray(memlist)
+    const tForm = document.createElement('form')
+    gameScreen.innerHTML = '';
+    const memlist = shuffleArray(memList)
     
     memlist.forEach(function(item) {
-        let htmlObject= createhtmlObject(item)
-        tForm.appendchild(htmlObject)
+        const htmlObject= createHtmlObject(item)
+        tForm.appendChild(htmlObject)
         
         
     });
-    gameScreen.appendChild(tForm);}
+    gameScreen.appendChild(tForm);
+}
