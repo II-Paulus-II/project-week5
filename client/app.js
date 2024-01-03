@@ -45,6 +45,7 @@ async function Game() {
       const testList = await responseT.json();
       console.log(testList);
       renderT(testList);
+
       break;
     case 3:
       break;
@@ -70,6 +71,7 @@ function createHtmlObject(member) {
     const itemCheckbox = document.createElement("input");
     itemCheckbox.id = member.name;
     myObject.appendChild(itemCheckbox);
+    myObject.type= "radio";
   }
   return myObject;
 }
