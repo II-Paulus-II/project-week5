@@ -1,95 +1,117 @@
-/* ----- Get Server Location ----- */ 
+/* ----- Get Server Location ----- */
 
-let serverLocation = "http://localhost:8080"
+const SERVER_LOCATION = "http://localhost:8080";
 console.log("Script Loaded");
 
-/* ----- Backup data for testing ----- */ 
-let furnitureArray = [
-    {name: "Chair"},
-    {name: "Table"},
-    {name: "Sofa"},
-    {name: "Bed"},
-    {name: "Desk"},
-    {name: "Cabinet"},
-    {name: "Dresser"},
-    {name: "Bookcase"},
-    {name: "Recliner"},
-    {name: "Ottoman"}
+/* ----- Backup data for testing ----- */
+const FURNITURE_ARRAY = [
+  { name: "Chair" },
+  { name: "Table" },
+  { name: "Sofa" },
+  { name: "Bed" },
+  { name: "Desk" },
+  { name: "Cabinet" },
+  { name: "Dresser" },
+  { name: "Bookcase" },
+  { name: "Recliner" },
+  { name: "Ottoman" },
 ];
 
-/* ----- DOM Objects ----- */ 
+/* ----- DOM Objects ----- */
 
-const gameScreen = document.getElementById('gameScreen');
-let startButton = document.getElementById('startButton');
-let startButton1 = document.getElementById('startButton1');
+const gameScreen = document.getElementById("gameScreen");
+let startButton = document.getElementById("startButton");
+let startButton1 = document.getElementById("startButton1");
 
-/* ----- Global Game Variables ----- */ 
+/* ----- Global Game Variables ----- */
 
 let gameRunning = false;
-let gameState = 1; 
 
-/* ----- Game Function ----- */ 
+const GameState = {
+  Stage1: 1,
+  Stage2: 2,
+};
+let currentGameState = GameState.Stage1;
 
-async function Game() {
-  switch(gameState) {
-    case 1:
+async function get(path) {
+  const res = await fetch(`${SERVER_LOCATION}/${path}`);
+  if (!res.ok) {
+    throw new Error(`Unable to retrieve data. ${res.error()}`);
+  }
+  return res.json();
+}
+
+/* ----- Game Function ----- */
+
+async function playGame(nextGameState) {
+  gameRunning = true;
+  currentGameState = nextGameState;
+
+  if (nextGameState === GameState.Stage3) {
+    return;
+  }
+
+  const data = await get("/getmemory");
+
+  switch (nextGameState) {
+    case GameState.Stage1:
       console.log("game is running at stage 1");
-      const responseM = await fetch(`${serverLocation}/getmemory`);
-      const memList = await responseM.json();
-      console.log(memList);
-      renderM(memList);
+      renderM(data);
       break;
-    case 2:
+    case GameState.Stage2:
       console.log("game is running at stage 2");
-      const responseT = await fetch(`${serverLocation}/getmemory`);
-      const testList = await responseT.json();
-      console.log(testList);
-      renderT(testList);
+      renderT(data);
       break;
-    case 3:
+    case GameState.Stage3:
+      // TODO: Implement
       break;
   }
 }
 
-/* ----- Create HTML ----- */ 
+/* ----- Create HTML ----- */
 
 function createHtmlObject(member) {
   let myObject = document.createElement("div");
   myObject.classList.add("itemContainer");
-  const img = document.createElement('img');
+  const img = document.createElement("img");
   img.alt = member.name;
   img.classList.add("itemImage");
   myObject.appendChild(img);
-  if(gameState == 1) {
-    const itemName = document.createElement("p");
-    itemName.classList.add("itemName");
-    itemName.textContent = member.name;
-    myObject.appendChild(itemName);
+
+  switch (true) {
+    case gameState === GameState.Stage1: {
+      const itemName = document.createElement("p");
+      itemName.classList.add("itemName");
+      itemName.textContent = member.name;
+      myObject.appendChild(itemName);
+      break;
+    }
+    case gameState === GameState.Stage2: {
+      const itemCheckbox = document.createElement("input");
+      itemCheckbox.id = member.name;
+      myObject.appendChild(itemCheckbox);
+      break;
+    }
   }
-  if(gameState == 2) {
-    const itemCheckbox = document.createElement("input");
-    itemCheckbox.id = member.name;
-    myObject.appendChild(itemCheckbox);
-  }
+
   return myObject;
 }
 
-/* ----- Main Event Listener ----- */ 
+/* ----- Main Event Listener ----- */
 
-startButton.addEventListener('click', async function(event) {
-  gameRunning = true;
-  //make button display none 
-  Game();
+startButton.addEventListener("click", async function (event) {
+  //make button display none
+  playGame();
 
   /* OLD EVENT LISTENER DONT DELETE TILL NEW IS WORKING
   // Insert furniture names into the div
-  const response = await fetch(`${serverLocation}/getmemory`);
-  const furtniture = await response.json(); 
+  const response = await fetch(`${SERVER_LOCATION}/getmemory`);
+  const furtniture = await response.json();
   furtniture.forEach(function(item) {
     let furnitureDiv = document.createElement('div');
     furnitureDiv.textContent = item.name;
     console.log(item.name)
-    
+
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = item.name;
@@ -110,14 +132,11 @@ startButton.addEventListener('click', async function(event) {
       gameScreen.removeChild(gameScreen.firstChild);
     }
     gameScreen.style.opacity = 1;
-  }, 1500); */  
-
+  }, 1500); */
 });
 
-startButton1.addEventListener('click', function() { 
-  gameRunning = true;
-  gameState = 2;
-  Game();
+startButton1.addEventListener("click", function () {
+  playGame(GameState.Stage2);
 
   /*  let shuffledArray = shuffleArray(furnitureArray);
 
@@ -128,41 +147,32 @@ startButton1.addEventListener('click', function() {
     } */
 });
 
-
-
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-};
-
-
-function renderM(memList){
-    gameScreen.innerHTML = '';
-    const memlist = shuffleArray(memList)
-    
-    memlist.forEach(function(item) {
-        let htmlObject= createHtmlObject(item)
-        gameScreen.appendChild(htmlObject)
-        
-        
-    });
-    
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
+function renderM(memList) {
+  gameScreen.innerHTML = "";
+  const memlist = shuffleArray(memList);
 
-function renderT(memList){
-    const tForm = document.createElement('form')
-    gameScreen.innerHTML = '';
-    const memlist = shuffleArray(memList)
-    
-    memlist.forEach(function(item) {
-        const htmlObject= createHtmlObject(item)
-        tForm.appendChild(htmlObject)
-        
-        
-    });
-    gameScreen.appendChild(tForm);
+  memlist.forEach(function (item) {
+    let htmlObject = createHtmlObject(item);
+    gameScreen.appendChild(htmlObject);
+  });
+}
+
+function renderT(memList) {
+  const tForm = document.createElement("form");
+  gameScreen.innerHTML = "";
+  const memlist = shuffleArray(memList);
+
+  memlist.forEach(function (item) {
+    const htmlObject = createHtmlObject(item);
+    tForm.appendChild(htmlObject);
+  });
+  gameScreen.appendChild(tForm);
 }
