@@ -116,3 +116,31 @@ function shuffleArray(array) {
     }
     return array;
 };
+
+
+function renderM(memList){
+    gamescreen.getElementById(gameScreen).innerHTML = '';
+    shuffleArray(memlist)
+    
+    memlist.forEach(function(item) {
+        let htmlObject= createhtmlObject(item)
+        gamescreen.appendchild(htmlObject)
+        
+        
+    });
+    
+}
+
+
+function renderT(memList){
+    let tForm = document.createElement('form')
+    gamescreen.getElementById(gameScreen).innerHTML = '';
+    shuffleArray(memlist)
+    
+    memlist.forEach(function(item) {
+        let htmlObject= createhtmlObject(item)
+        tForm.appendchild(htmlObject)
+        
+        
+    });
+    gameScreen.appendChild(tForm);}
