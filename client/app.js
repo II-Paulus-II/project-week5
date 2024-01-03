@@ -18,6 +18,7 @@ let furnitureArray = [
 
 let gameScreen = document.getElementById('gameScreen');
 let startButton = document.getElementById('startButton');
+let startButton1 = document.getElementById('startButton1');
 
 startButton.addEventListener('click', async function(event) {
   // Insert furniture names into the div
@@ -27,6 +28,15 @@ startButton.addEventListener('click', async function(event) {
     let furnitureDiv = document.createElement('div');
     furnitureDiv.textContent = item.name;
     console.log(item.name)
+    
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = item.name;
+
+
+
+
+    gameScreen.appendChild(checkbox);
     gameScreen.appendChild(furnitureDiv);
   });
 
@@ -42,3 +52,23 @@ startButton.addEventListener('click', async function(event) {
   }, 1500); 
 
 });
+
+startButton1.addEventListener('click', function() {
+    let shuffledArray = shuffleArray(furnitureArray);
+
+    for (let i = 0; i < 3; i++) {
+        let furnitureDiv = document.createElement('div');
+        furnitureDiv.textContent = shuffledArray[i].name;
+        gameScreen.appendChild(furnitureDiv);
+    }
+});
+
+
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
