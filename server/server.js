@@ -18,19 +18,15 @@ const dataTwo = { name: "begintest"};
 
 /* ----- Server Side Data Logic ----- */
 
-function newLevel(level) {
-  
-};
-
 function getMemoriseList(level) {
-  
-  const data = dataOne;
+  const data = db.prepare(`SELECT * FROM memory WHERE id=${level}`).all();
+  //const data = dataOne;
   return data;
 };
 
 function getTestList(level) {
-
-  const data = dataTwo;
+  const data = db.prepare(`SELECT * FROM test WHERE id=${level}`).all();
+  //const data = dataTwo;
   return data;
 };
 
@@ -50,8 +46,6 @@ app.get("/getmemory", function (request, response) {
 //First get request to actually start a new level by requesting list of items to memorise
 app.get("/beginlevel", function (request, response) {
   const level = request.body.level;
-  //Do we need a new level ??
-  newLevel(level);
   const responseData = getMemoriseList(level);
   response.json(responseData);
 });
@@ -63,8 +57,8 @@ app.get("/begintest", function (request, response) {
   response.json(responseData);
 });
 
-
 /* ----- Server ----- */
+
 app.listen(8080, () => {
   console.log("Server is Running");
   console.log("Press Ctrl + \"C\" to end");
