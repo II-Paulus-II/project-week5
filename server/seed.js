@@ -29,7 +29,9 @@ db.exec(`
 db.exec(`
   CREATE TABLE IF NOT EXISTS memory (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  item_id INTEGER
+  item1 INTEGER,
+  item2 INTEGER,
+  item3 INTEGER
   )
 `);
 
@@ -37,7 +39,9 @@ db.exec(`
 db.exec(`
   CREATE TABLE IF NOT EXISTS test (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  item_id INTEGER
+  item1 INTEGER,
+  item2 INTEGER,
+  item3 INTEGER
   )
 `);
 
@@ -68,15 +72,21 @@ const numItems = furnitureArray.length;
 
 //populate levels list with increasing number of items
 
-
+db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("2", "4", "1000");
+db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("3", "5", "1000");
+db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("3", "6", "1000");
 
 /* ----- Memory Lists ----- */ 
 
-db.prepare(`INSERT INTO memory (item_id) VALUES (?)`).run("1");
+db.prepare(`INSERT INTO memory (item1, item2) VALUES (?,?)`).run("1", "2");
+db.prepare(`INSERT INTO memory (item1, item2) VALUES (?, ?)`).run("2", "4");
+db.prepare(`INSERT INTO memory (item1, item2, item3) VALUES (?,?,?)`).run("3","4","6");
 
 /* ----- Test Lists ----- */
 
-db.prepare(`INSERT INTO test (item_id) VALUES (?)`).run("1");
+db.prepare(`INSERT INTO test (item1, item2) VALUES (?,?)`).run("1", "2");
+db.prepare(`INSERT INTO test (item1, item2) VALUES (?, ?)`).run("2", "4");
+db.prepare(`INSERT INTO test (item1, item2, item3) VALUES (?,?,?)`).run("3","4","6");
 
 /* Count Number of items -- BOILER PLATE CODE [counting rows in list] 
 let count = db.prepare(`

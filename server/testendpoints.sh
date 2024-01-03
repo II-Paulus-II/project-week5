@@ -13,6 +13,6 @@ echo -e
 curl -X GET \
   -H "Content-type: application/json" \
   -H "Accept: application/json" \
-  -d '{"level":"1"}' \
+  -d '{"level":"2"}' \
   "http://localhost:8080/begintest"
 echo -e

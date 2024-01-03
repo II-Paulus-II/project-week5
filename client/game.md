@@ -37,7 +37,7 @@ clear inner html of gamescreen
 shuffleArray(mlist)
 
 mlist.forEach(function (member) {
-    htmlObject = createhtmlObject()
+    let htmlObject = createhtmlObject()
     setContent(arraymember, htmlObject)
     gamescreen.appendchild(htmlObject)
 });

@@ -19,14 +19,28 @@ const dataTwo = { name: "begintest"};
 /* ----- Server Side Data Logic ----- */
 
 function getMemoriseList(level) {
-  const data = db.prepare(`SELECT * FROM memory WHERE id=${level}`).all();
-  //const data = dataOne;
+  const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
+  const levelData = db.prepare(`SELECT * FROM memory WHERE id=${level}`).all();
+  console.log(levelData);
+  let itemData = [];
+  /*levelData.forEach(function (id) {
+    const item = db.prepare(`SELECT * FROM items WHERE id=${id.item_id}`).all();
+    itemData.push(item);
+  });*/
+  const data = [levelInfo, itemData];
   return data;
 };
 
 function getTestList(level) {
-  const data = db.prepare(`SELECT * FROM test WHERE id=${level}`).all();
-  //const data = dataTwo;
+  const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
+  const levelData = db.prepare(`SELECT * FROM test WHERE id=${level}`).all();
+  console.log(levelData);
+  let itemData = [];
+  /*levelData.forEach(function (id) {
+    const item = db.prepare(`SELECT * FROM items WHERE id=${id.item_id}`).all();
+    itemData.push(item);
+  });*/
+  const data = [levelInfo, itemData];
   return data;
 };
 
@@ -46,6 +60,7 @@ app.get("/getmemory", function (request, response) {
 //First get request to actually start a new level by requesting list of items to memorise
 app.get("/beginlevel", function (request, response) {
   const level = request.body.level;
+  console.log(level);
   const responseData = getMemoriseList(level);
   response.json(responseData);
 });
