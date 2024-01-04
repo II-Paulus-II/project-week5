@@ -44,6 +44,11 @@ function getList(level, table) {
   return data;
 };
 
+function checkAnswer(answer) {
+  
+  return checkedAnswer;
+}
+
 /* ----- Endpoints ----- */ 
 
 //Basic setup endpoint
@@ -70,6 +75,15 @@ app.post("/begintest", function (request, response) {
   const level = request.body.level;
   const responseData = getList(level, "test");
   response.json(responseData);
+});
+
+app.post("/submitanswer", function (request, response) {
+  const level = request.body[0].level;
+  const answer = request.body[1];
+  console.log(level);
+  console.log(answer);
+  const answerData = checkAnswer(answer);
+  response.json("success");
 });
 
 /* ----- Server ----- */

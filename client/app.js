@@ -48,7 +48,7 @@ function saveAnswer(event) {
       answer.push(datapoint.value);
     });
     //console.log(fData) //These are the keys to search database
-    console.log(answer);
+    //console.log(answer);
     gameState = 3;
     Game();
 }
@@ -145,7 +145,20 @@ async function Game() {
       renderT(testData[1]);
       break;
     case 3:
-      console.log
+      console.log("we are now in stage 3");
+      console.log(answer);
+      let data = [];
+      data.push(gameLevel);
+      data.push(answer);
+      console.log(data);
+      const responseA = await fetch(`${serverLocation}/submitanswer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const answerData = await responseA.json();
       break;
   }
 };
