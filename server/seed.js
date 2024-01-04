@@ -95,26 +95,47 @@ let count = db.prepare(`
 
 console.log(count); */
 const scaling = ['a', 'b', 'c'];
+let removedElement;
 function getRandomElement(scaling) {
-  let randomIndex = Math.floor(Math.random() * array.length);
-  let randomElement= getRandomElement(scaling)
-  return array[randomIndex];
+  let randomIndex = Math.floor(Math.random() * scaling.length);
+  return scaling[randomIndex];
   
 }
 
 
-function difficultyscalingdecider(randomElement) {
-if (randomElement = "c"){
+function difficultyscalingdecider() {
+const randomElement = getRandomElement(scaling);
 
-//append array amount ++  / 
-// remove c from scaling 
+
+
+if (randomElement == "a"){
+scaling.push(removedElement);
+scaling.splice("a");
+removedElement = "a";
+console.log(scaling)
+//append arrayamount ++  / 
+ 
 //level++
 }
-else if (randomElement = "b"){
+else if (randomElement == "b"){
+  scaling.push(removedElement);
+  scaling.splice("b");
+  removedElement = "b";
+  console.log(scaling)
 //time - 5
 //level++
 }
-else {
+else if (randomElement == "c") {
+scaling.push(removedElement);
+scaling.splice("c");
+removedElement = "c";
+console.log(scaling)
 //level++
 }
 }
+
+let level = 1;
+let arrayamount = 9;
+
+
+difficultyscalingdecider()
