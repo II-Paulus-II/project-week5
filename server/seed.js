@@ -98,7 +98,29 @@ console.log(count); */
 /*
 
 get num items 
-shuffle 
+testqty ----> 
+memory ---->
+masterArray --->
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+shuffledMaster = shuffleArray(masterarray)
+
+function splitArray(shuffledMaster, testqty, memoryqty) {
+  let testArray = shuffledMaster.slice(0, testQty);
+   let memoryArray = shuffledMaster.slice(0, memoryQty);
+}
+
+splitArray(shuffledMaster, testqty, memoryqty)
+
+
+
+
 get top (testquestions num)
 get memory form testquestions num 
 

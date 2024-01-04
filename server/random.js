@@ -63,7 +63,7 @@ function generateArray () {
 generateArray ()
 console.log(nextLevelValue);
 
-let newArray = [{}];
+let newArray = [];
 
 function countElements(array) {
     let testquestions = 3;
@@ -120,7 +120,7 @@ function appendNumberOfSelections(numberOfSelections) {
 }
 
 countElements(nextLevelValue);
-
+console.log(newArray)
 console.log(`Test questions array: ${testquestionsArray}`);
 console.log(`Time array: ${timeArray}`);
 console.log(`Number of selections array: ${numberOfSelectionsArray}`);
