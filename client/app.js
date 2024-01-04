@@ -28,6 +28,7 @@ const startButton1 = document.getElementById("startButton1");
 let gameRunning = false;
 let gameState = 1; 
 let gameLevel = { level: 1 };
+let answer = [];
 
 /* ----- Game Logic Functions ----- */
 
@@ -38,6 +39,19 @@ function shuffleArray(array) {
   }
   return array;
 };
+
+function saveAnswer(event) {
+    let checked = document.querySelectorAll('[name="checkbox"]:checked');
+    //let fData = [];
+    answer = [];
+    checked.forEach(function (datapoint) {
+      answer.push(datapoint.value);
+    });
+    //console.log(fData) //These are the keys to search database
+    console.log(answer);
+    gameState = 3;
+    Game();
+}
 
 /* ----- Create HTML & Form Objects ----- */
 
@@ -57,6 +71,8 @@ function createHtmlObject(member) {
   if(gameState == 2) {
     const itemCheckbox = document.createElement("input");
     itemCheckbox.id = member.name;
+    itemCheckbox.value = member.name;
+    itemCheckbox.name = "checkbox";
     myObject.appendChild(itemCheckbox);
     itemCheckbox.type= "checkbox";
   }
@@ -72,11 +88,10 @@ function createForm(list) {
   const submitBtn = document.createElement("button");
   submitBtn.textContent = "Press";
   testForm.appendChild(submitBtn);
-  submitBtn.addEventListener("click", function(event) {
+  testForm.addEventListener("submit", function(event) {
     event.preventDefault();
-    const formData = new FormData(testForm);
-    const formValues = Object.fromEntries(formData);
-    console.log("form data is: ", formValues);
+    saveAnswer(event);
+
   });
   return testForm;
 };
@@ -130,6 +145,7 @@ async function Game() {
       renderT(testData[1]);
       break;
     case 3:
+      console.log
       break;
   }
 };
