@@ -98,24 +98,53 @@ difficultyData.forEach(function (item) {
 });
 
 /* ----- Memorise Table ----- */
+
+//Get Array of Numbers to alter memorise table with
+let memoryCount = db.prepare(`
+  SELECT memory_qty FROM levels WHERE id=${numLevels}
+`).all();
+let numArray = [];
+for (let i = 1; i <= memoryCount[0].memory_qty; i++) {
+   numArray.push(i);
+};
+
+//Create Base Table
 db.exec(`
   CREATE TABLE IF NOT EXISTS memory (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  item1 INTEGER,
-  item2 INTEGER,
-  item3 INTEGER
+  id INTEGER PRIMARY KEY AUTOINCREMENT
   )
 `);
 
-//Test Table
+//Add Columns depending on max number of items needed
+numArray.forEach(function (num) {
+  let colName = `item${num}`;
+  db.prepare(`ALTER TABLE memory ADD COLUMN ${colName} INTEGER`).run();
+}); 
+
+/* ----- Test Table ----- */
+
+//Get Table count and reset num array
+let tableCount = db.prepare(`
+  SELECT test_qty FROM levels WHERE id=${numLevels}
+`).all();
+numArray = [];
+for (let i = 1; i <= tableCount[0].test_qty; i++) {
+   numArray.push(i);
+};
+
+//Base Table
 db.exec(`
   CREATE TABLE IF NOT EXISTS test (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  item1 INTEGER,
-  item2 INTEGER,
-  item3 INTEGER
+  id INTEGER PRIMARY KEY AUTOINCREMENT
   )
 `);
+
+numArray.forEach(function (num) {
+  let colName = `item${num}`;
+  db.prepare(`ALTER TABLE test ADD COLUMN ${colName} INTEGER`).run();
+}); 
+
+
 
 /* ----- Add Items to Basic Items Table ----- */
 
@@ -142,17 +171,6 @@ furnitureArray.forEach(function (item) {
 const maxLevels = 10;
 const numItems = furnitureArray.length;
 
-/* ----- Memory Lists ----- */ 
-
-db.prepare(`INSERT INTO memory (item1, item2) VALUES (?,?)`).run("1", "2");
-db.prepare(`INSERT INTO memory (item1, item2) VALUES (?, ?)`).run("2", "4");
-db.prepare(`INSERT INTO memory (item1, item2, item3) VALUES (?,?,?)`).run("3","4","6");
-
-/* ----- Test Lists ----- */
-
-db.prepare(`INSERT INTO test (item1, item2) VALUES (?,?)`).run("3", "5");
-db.prepare(`INSERT INTO test (item1, item2) VALUES (?, ?)`).run("7", "8");
-db.prepare(`INSERT INTO test (item1, item2, item3) VALUES (?,?,?)`).run("4","5","7");
 
 /* Count Number of items -- BOILER PLATE CODE [counting rows in list] 
 let count = db.prepare(`
