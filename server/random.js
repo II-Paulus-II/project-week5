@@ -63,7 +63,7 @@ function generateArray () {
 generateArray ()
 console.log(nextLevelValue);
 
-let newArray = [];
+let newArray = [{}];
 
 function countElements(array) {
     let testquestions = 3;

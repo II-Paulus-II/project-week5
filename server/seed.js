@@ -94,6 +94,16 @@ let count = db.prepare(`
 `).all();
 
 console.log(count); */
+
+/*
+
+get num items 
+shuffle 
+get top (testquestions num)
+get memory form testquestions num 
+
+
+*/
 const scaling = ['a', 'b', 'c'];
 let removedElement;
 function getRandomElement(scaling) {
@@ -101,6 +111,8 @@ function getRandomElement(scaling) {
   return scaling[randomIndex];
   
 }
+
+
 
 
 function difficultyscalingdecider() {
