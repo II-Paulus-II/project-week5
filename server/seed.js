@@ -14,8 +14,9 @@ db.exec(`
   )
 `);
 
-/* ----- Level Tables ----- */ 
+/* ----- Level Table ----- */ 
 
+//Create Table in Database
 db.exec(`
   CREATE TABLE IF NOT EXISTS levels (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +26,78 @@ db.exec(`
   )
 `);
 
-//Memorise Table
+//Populate Table with random values 
+let numLevels = 20;
+//Choose one of three levels to increment
+const scaling = ["a", "b", "c"];
+//Needed to make sure that we dont increment same level twice
+let removedElement;
+
+function getRandomElement(scaling) {
+  let randomIndex = Math.floor(Math.random() * scaling.length);
+  return scaling[randomIndex];
+}
+// Decides between either a, b or c. 
+function difficultyscalingdecider() {
+  const randomElement = getRandomElement(scaling);
+  //Now that we have our random element - put last one back in the scaling array
+  if (removedElement) {
+    scaling.push(removedElement);
+  }
+  const elementIndex = scaling.indexOf(randomElement);
+  scaling.splice(elementIndex, 1);
+  removedElement = randomElement;
+  return randomElement;
+}
+//returns array of difficulty change choices. 
+function generateDifficulty () {
+  let difficulty = [];
+    for (let i=1; i <= numLevels; i++) {
+        const x = difficultyscalingdecider()
+        difficulty.push(x);
+    }
+  return difficulty;
+}
+//array of difficulty change choices. 
+const nextLevelDifficulty = generateDifficulty();
+
+let difficultyData = [];
+//Populate difficulty array
+function appendDifficultyArray(data) {
+  difficultyData.push(data);
+}
+//
+(function createLevels(array) {
+    let memory_qty = 3;
+    let test_qty = 7
+    let time = 6000;
+
+    nextLevelDifficulty.forEach(function (entry, index) {
+      if (entry === 'a') {
+          memory_qty++;
+      } else if (entry === 'b') {
+          time = time - 1000;
+      } else if (entry === 'c') {
+          test_qty = test_qty + 2 ;
+      }
+      if (index % 5 === 0) {
+          time += 1000;
+      }
+      let leveldata = {
+        memory_qty,
+        test_qty,
+        time,
+      };
+      appendDifficultyArray(leveldata);
+    });
+})();
+
+//Insert Difficulty Values into the table 
+difficultyData.forEach(function (item) {
+  db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?, ?, ?)`).run(item.memory_qty, item.test_qty, item.time);
+});
+
+/* ----- Memorise Table ----- */
 db.exec(`
   CREATE TABLE IF NOT EXISTS memory (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -69,12 +141,6 @@ furnitureArray.forEach(function (item) {
 
 const maxLevels = 10;
 const numItems = furnitureArray.length;
-
-//populate levels list with increasing number of items
-
-db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("2", "4", "1000");
-db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("3", "5", "1000");
-db.prepare(`INSERT INTO levels (memory_qty, test_qty, time) VALUES (?,?,?)`).run("3", "6", "1000");
 
 /* ----- Memory Lists ----- */ 
 
@@ -125,7 +191,7 @@ get top (testquestions num)
 get memory form testquestions num 
 
 
-*/
+
 const scaling = ['a', 'b', 'c'];
 let removedElement;
 function getRandomElement(scaling) {
@@ -167,4 +233,4 @@ console.log(scaling)
 //level++
 }
 }
-
+*/
