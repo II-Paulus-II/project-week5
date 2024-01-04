@@ -115,6 +115,16 @@ function renderT(items){
   gameScreen.appendChild(tForm);
 };
 
+function renderR(items){
+  gameScreen.innerHTML = "";
+  /*gameScreen.innerHTML = ;
+  commonItems.length;
+  gameScreen.appendChild(tForm); */
+};
+/*setTimeout(function() {
+  console.log(gamescreen.innerHTML = "Your score was: "  );
+}, 2000); */
+
 /* ----- Main Game Function ----- */
 
 async function Game() {
@@ -159,6 +169,8 @@ async function Game() {
         body: JSON.stringify(data),
       });
       const answerData = await responseA.json();
+      renderR(answerData);
+
       break;
   }
 };
