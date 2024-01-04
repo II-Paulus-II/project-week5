@@ -16,31 +16,31 @@ app.use(cors());
 const dataOne = { name: "beginlevel"};
 const dataTwo = { name: "begintest"};
 
-/* ----- Server Side Data Logic ----- */
+/* ----- Get Data Logic - Needs Preparing ----- */
 
-function getMemoriseList(level) {
+function getList(level, table) {
   const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
-  const levelData = db.prepare(`SELECT * FROM memory WHERE id=${level}`).all();
-  console.log(levelData);
+  const levelData = db.prepare(`SELECT * FROM ${table} WHERE id=${level}`).all();
+  let itemId = [];
+  for ( const [key,value] of Object.entries( levelData[0] ) ) {
+    if(key == "id") {
+      //do nothing
+    }
+    else {
+      if(!value) {
+        //do nothing
+      } 
+      else {
+        itemId.push(value);
+      }
+    }
+  }
   let itemData = [];
-  /*levelData.forEach(function (id) {
-    const item = db.prepare(`SELECT * FROM items WHERE id=${id.item_id}`).all();
-    itemData.push(item);
-  });*/
-  const data = [levelInfo, itemData];
-  return data;
-};
-
-function getTestList(level) {
-  const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
-  const levelData = db.prepare(`SELECT * FROM test WHERE id=${level}`).all();
-  console.log(levelData);
-  let itemData = [];
-  /*levelData.forEach(function (id) {
-    const item = db.prepare(`SELECT * FROM items WHERE id=${id.item_id}`).all();
-    itemData.push(item);
-  });*/
-  const data = [levelInfo, itemData];
+  itemId.forEach(function (id) {
+    const item = db.prepare(`SELECT * FROM items WHERE id=${id}`).all();
+    itemData.push(item[0]);
+  });
+  const data = [levelInfo[0], itemData];
   return data;
 };
 
@@ -57,18 +57,18 @@ app.get("/getmemory", function (request, response) {
   response.json(memory);
 });
 
-//First get request to actually start a new level by requesting list of items to memorise
-app.get("/beginlevel", function (request, response) {
+//First post request to actually start a new level by requesting list of items to memorise
+app.post("/beginlevel", function (request, response) {
   const level = request.body.level;
-  console.log(level);
-  const responseData = getMemoriseList(level);
+  //console.log(level);
+  const responseData = getList(level, "memory");
   response.json(responseData);
 });
 
 //Now Need the larger list of items for the test
-app.get("/begintest", function (request, response) {
+app.post("/begintest", function (request, response) {
   const level = request.body.level;
-  const responseData = getTestList(level);
+  const responseData = getList(level, "test");
   response.json(responseData);
 });
 

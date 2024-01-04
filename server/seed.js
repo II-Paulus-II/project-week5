@@ -84,9 +84,9 @@ db.prepare(`INSERT INTO memory (item1, item2, item3) VALUES (?,?,?)`).run("3","4
 
 /* ----- Test Lists ----- */
 
-db.prepare(`INSERT INTO test (item1, item2) VALUES (?,?)`).run("1", "2");
-db.prepare(`INSERT INTO test (item1, item2) VALUES (?, ?)`).run("2", "4");
-db.prepare(`INSERT INTO test (item1, item2, item3) VALUES (?,?,?)`).run("3","4","6");
+db.prepare(`INSERT INTO test (item1, item2) VALUES (?,?)`).run("3", "5");
+db.prepare(`INSERT INTO test (item1, item2) VALUES (?, ?)`).run("7", "8");
+db.prepare(`INSERT INTO test (item1, item2, item3) VALUES (?,?,?)`).run("4","5","7");
 
 /* Count Number of items -- BOILER PLATE CODE [counting rows in list] 
 let count = db.prepare(`
@@ -134,8 +134,3 @@ console.log(scaling)
 }
 }
 
-let level = 1;
-let arrayamount = 9;
-
-
-difficultyscalingdecider()
