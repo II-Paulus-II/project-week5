@@ -124,3 +124,20 @@ console.log(newArray)
 console.log(`Test questions array: ${testquestionsArray}`);
 console.log(`Time array: ${timeArray}`);
 console.log(`Number of selections array: ${numberOfSelectionsArray}`);
+
+
+
+
+function countCommonItems(array1, array2) {
+    let commonItems = array1.filter(item => array2.includes(item));
+    return commonItems.length;
+
+}
+
+let array1 = ["Chair", "Table", "Sofa", "Bed"];
+let array2 = ["Sofa", "Bed", "Desk", "Cabinet"];
+
+console.log(countCommonItems(array1, array2)); 
+
+
+//commonItems.length;
