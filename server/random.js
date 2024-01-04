@@ -1,69 +1,57 @@
 const scaling = ['a', 'b', 'c'];
+
 let removedElement;
+
 function getRandomElement(scaling) {
-    console.log("something")
+    //console.log("something")
   let randomIndex = Math.floor(Math.random() * scaling.length);
   return scaling[randomIndex];
-  
 }
-
 
 function difficultyscalingdecider() {
-    console.log("something")
-const randomElement = getRandomElement(scaling);
+    //console.log("something")
+  const randomElement = getRandomElement(scaling);
+    if (randomElement == "a") {
+    if (removedElement) {
+      scaling.push(removedElement);
+    }
+    const indexvariable = scaling.indexOf("a")
+    scaling.splice(indexvariable, 1);
+    removedElement = "a";
+    return removedElement
 
+  //append arrayamount ++  / 
+   
+  //level++
+  }
+  else if (randomElement == "b") {
+    if (removedElement) {
+      scaling.push(removedElement);
+    }
+    const indexvariable = scaling.indexOf("b")
+    scaling.splice(indexvariable, 1);
+    
+    removedElement = "b";
+    return removedElement 
+    
+  //time - 5
+  //level++
+  }
+    else if (randomElement == "c") {
+      if (removedElement) {
+      scaling.push(removedElement);
+    }
+    const indexvariable = scaling.indexOf("c")
+    scaling.splice(indexvariable, 1);
 
+    removedElement = "c";
+    return removedElement
 
-if (randomElement == "a"){
-scaling.push(removedElement);
-const indexvariable = scaling.indexOf("a")
-scaling.splice(indexvariable, 1);
-removedElement = "a";
-return removedElement
-
-//append arrayamount ++  / 
- 
-//level++
+  //level++
+  }
 }
-else if (randomElement == "b"){
-  scaling.push(removedElement);
-  const indexvariable = scaling.indexOf("b")
-scaling.splice(indexvariable, 1);
-  
-  removedElement = "b";
-  return removedElement 
-  
-//time - 5
-//level++
-}
-else if (randomElement == "c") {
-scaling.push(removedElement);
-const indexvariable = scaling.indexOf("c")
-scaling.splice(indexvariable, 1);
-
-removedElement = "c";
-return removedElement
-
-//level++
-}
-}
-
-let level = 1;
-let arrayamount = 9;
-
-
-
-const try1 =difficultyscalingdecider()
-
-const try2 =difficultyscalingdecider()
-
-const try3 =difficultyscalingdecider()
- 
-console.log(try1)
-
 
 const nextLevelValue = [];
-
 
 function generateArray () {
     for (let i=1; i <21; i++) {
@@ -75,8 +63,7 @@ function generateArray () {
 generateArray ()
 console.log(nextLevelValue);
 
-
-
+let newArray = [];
 
 function countElements(array) {
     let testquestions = 3;
@@ -99,10 +86,22 @@ function countElements(array) {
         if ((i + 1) % 5 === 0) {
             time += 2000;
         }
+      let leveldata = {
+        testquestions,
+        numberOfSelections,
+        time,
+      };
+      console.log("i is: ", i, "leveldata is: ",leveldata);
+      appendNewArray(leveldata);
+      //newArray.push(leveldata);
     }
-
-   
 }
+
+function appendNewArray(data) {
+  newArray.push(data);
+}
+
+console.log(`newarray is: , ${newArray}`);
 
 let testquestionsArray = [];
 let timeArray = [];
@@ -120,13 +119,7 @@ function appendNumberOfSelections(numberOfSelections) {
     numberOfSelectionsArray.push(numberOfSelections);
 }
 
-
-
-
-
-
-let array = ['a', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'c', 'b', 'a', 'c', 'b'];
-countElements(array);
+countElements(nextLevelValue);
 
 console.log(`Test questions array: ${testquestionsArray}`);
 console.log(`Time array: ${timeArray}`);
