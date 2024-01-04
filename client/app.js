@@ -27,6 +27,7 @@ let startButton1 = document.getElementById('startButton1');
 
 let gameRunning = false;
 let gameState = 1; 
+let gameLevel = { level: 1 };
 
 /* ----- Game Function ----- */ 
 
@@ -34,17 +35,29 @@ async function Game() {
   switch(gameState) {
     case 1:
       console.log("game is running at stage 1");
-      const responseM = await fetch(`${serverLocation}/getmemory`);
+      const responseM = await fetch(`${serverLocation}/beginlevel`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(gameLevel),
+      });
       const memList = await responseM.json();
-      console.log(memList);
-      renderM(memList);
+      //console.log(memList[1]);
+      renderM(memList[1]);
       break;
     case 2:
       console.log("game is running at stage 2");
-      const responseT = await fetch(`${serverLocation}/getmemory`);
+      const responseT = await fetch(`${serverLocation}/begintest`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(gameLevel),
+      });
       const testList = await responseT.json();
-      console.log(testList);
-      renderT(testList);
+      //console.log(testList);
+      renderT(testList[1]);
 
       break;
     case 3:
