@@ -3,6 +3,16 @@
 import Database from "better-sqlite3";
 const db = new Database("database.db");
 
+/* ----- Logic Functions ----- */
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 /* ----- Make Tables ----- */
 
 /* ----- Basic Items Table ----- */
@@ -13,6 +23,30 @@ db.exec(`
     name TEXT
   )
 `);
+
+let furnitureArray = [
+    {name: "Chair"},
+    {name: "Table"},
+    {name: "Sofa"},
+    {name: "Bed"},
+    {name: "Desk"},
+    {name: "Cabinet"},
+    {name: "Dresser"},
+    {name: "Bookcase"},
+    {name: "Recliner"},
+    {name: "Ottoman"}
+];
+
+furnitureArray.forEach(function (item) {
+  db.prepare(`INSERT INTO items (name) VALUES (?)`).run(`${item.name}`);
+});
+
+const numItems = 10;
+const itemNumArray = [];
+
+for (let i = 1; i <= numItems; i++) {
+   itemNumArray.push(i);
+};
 
 /* ----- Level Table ----- */ 
 
@@ -27,7 +61,7 @@ db.exec(`
 `);
 
 //Populate Table with random values 
-let numLevels = 20;
+let numLevels = 2;
 //Choose one of three levels to increment
 const scaling = ["a", "b", "c"];
 //Needed to make sure that we dont increment same level twice
@@ -65,7 +99,7 @@ let difficultyData = [];
 //Populate difficulty array
 function appendDifficultyArray(data) {
   difficultyData.push(data);
-}
+};
 //
 (function createLevels(array) {
     let memory_qty = 3;
@@ -144,111 +178,47 @@ numArray.forEach(function (num) {
   db.prepare(`ALTER TABLE test ADD COLUMN ${colName} INTEGER`).run();
 }); 
 
+/* ----- Insert Test and Memory Values into tables ----- */ 
+console.log("num levels is: ", numLevels);
 
-
-/* ----- Add Items to Basic Items Table ----- */
-
-let furnitureArray = [
-    {name: "Chair"},
-    {name: "Table"},
-    {name: "Sofa"},
-    {name: "Bed"},
-    {name: "Desk"},
-    {name: "Cabinet"},
-    {name: "Dresser"},
-    {name: "Bookcase"},
-    {name: "Recliner"},
-    {name: "Ottoman"}
-];
-
-furnitureArray.forEach(function (item) {
-  db.prepare(`INSERT INTO items (name) VALUES (?)`).run(`${item.name}`);
-});
-
-/* ----- Create Levels in database ----- */ 
-// Can change location of this code later if decided
-
-const maxLevels = 10;
-const numItems = furnitureArray.length;
-
-
-/* Count Number of items -- BOILER PLATE CODE [counting rows in list] 
-let count = db.prepare(`
-  SELECT COUNT(*) FROM items
-`).all();
-
-console.log(count); */
-
-/*
-
-get num items 
-testqty ----> 
-memory ---->
-masterArray --->
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+for(let i = 1; i <= numLevels; i++) {
+  const shuffledMaster = shuffleArray(itemNumArray); //Shuffling 1 to 10 
+  const numMemoryItems = db.prepare(`SELECT memory_qty FROM levels WHERE id=${i}`).all();
+  const numTestItems = db.prepare(`SELECT test_qty FROM levels WHERE id=${i}`).all();
+  const memoryArray = shuffledMaster.slice(0, numMemoryItems[0].memory_qty);
+  const testArray = shuffledMaster.slice(0, numTestItems[0].test_qty);
+  console.log("shuffled test items: ", testArray);
+  let memCountArray = [];
+  for (let j = 0; j < memoryArray.length; j++) {
+     memCountArray.push(j);
+  }; 
+  let testCountArray = [];
+  for (let k = 0; k < testArray.length; k++) {
+    testCountArray.push(k);
   }
-  return array;
+  console.log("num test items 1 onwards: ",testCountArray);
+  memCountArray.forEach(function (num) {
+    let numPlus = num + 1;
+    let colName = `item${numPlus}`;
+    if (num == 0) {
+      db.prepare(`INSERT INTO memory (${colName}) VALUES (?)`).run(memoryArray[num]);
+    }
+    else {
+      db.prepare(`UPDATE memory SET ${colName}=${memoryArray[num]} WHERE id=${i}`).run();
+    }
+  });
+  testCountArray.forEach(function (num) {
+    console.log("i is: ", i, "num is: ", num)
+    let numPlus = num + 1;
+    let colName = `item${numPlus}`;
+    console.log("column name is: ",colName);
+    console.log("testarray at this num is: ",testArray[num]);
+    if (num == 0) {
+      console.log("num is 0 so should be outputting this line: ");
+      db.prepare(`INSERT INTO test (${colName}) VALUES (?)`).run(testArray[num]);
+    }
+    else {
+      db.prepare(`UPDATE test SET ${colName}=${testArray[num]} WHERE id=${i}`).run();
+    }
+  });
 };
-shuffledMaster = shuffleArray(masterarray)
-
-function splitArray(shuffledMaster, testqty, memoryqty) {
-  let testArray = shuffledMaster.slice(0, testQty);
-   let memoryArray = shuffledMaster.slice(0, memoryQty);
-}
-
-splitArray(shuffledMaster, testqty, memoryqty)
-
-
-
-
-get top (testquestions num)
-get memory form testquestions num 
-
-
-
-const scaling = ['a', 'b', 'c'];
-let removedElement;
-function getRandomElement(scaling) {
-  let randomIndex = Math.floor(Math.random() * scaling.length);
-  return scaling[randomIndex];
-  
-}
-
-
-
-
-function difficultyscalingdecider() {
-const randomElement = getRandomElement(scaling);
-
-
-
-if (randomElement == "a"){
-scaling.push(removedElement);
-scaling.splice("a");
-removedElement = "a";
-console.log(scaling)
-//append arrayamount ++  / 
- 
-//level++
-}
-else if (randomElement == "b"){
-  scaling.push(removedElement);
-  scaling.splice("b");
-  removedElement = "b";
-  console.log(scaling)
-//time - 5
-//level++
-}
-else if (randomElement == "c") {
-scaling.push(removedElement);
-scaling.splice("c");
-removedElement = "c";
-console.log(scaling)
-//level++
-}
-}
-*/
