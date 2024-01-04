@@ -39,6 +39,30 @@ function shuffleArray(array) {
   return array;
 };
 
+/* ----- Create HTML ----- */
+
+function createHtmlObject(member) {
+  let myObject = document.createElement("div");
+  myObject.classList.add("itemContainer");
+  const img = document.createElement('img');
+  img.alt = member.name;
+  img.classList.add("itemImage");
+  myObject.appendChild(img);
+  if(gameState == 1) {
+    const itemName = document.createElement("p");
+    itemName.classList.add("itemName");
+    itemName.textContent = member.name;
+    myObject.appendChild(itemName);
+  }
+  if(gameState == 2) {
+    const itemCheckbox = document.createElement("input");
+    itemCheckbox.id = member.name;
+    myObject.appendChild(itemCheckbox);
+    itemCheckbox.type= "checkbox";
+  }
+  return myObject;
+};
+
 /* ----- Render Functions ----- */
 
 function renderM(memList){
@@ -98,31 +122,7 @@ async function Game() {
     case 3:
       break;
   }
-}
-
-/* ----- Create HTML ----- */
-
-function createHtmlObject(member) {
-  let myObject = document.createElement("div");
-  myObject.classList.add("itemContainer");
-  const img = document.createElement('img');
-  img.alt = member.name;
-  img.classList.add("itemImage");
-  myObject.appendChild(img);
-  if(gameState == 1) {
-    const itemName = document.createElement("p");
-    itemName.classList.add("itemName");
-    itemName.textContent = member.name;
-    myObject.appendChild(itemName);
-  }
-  if(gameState == 2) {
-    const itemCheckbox = document.createElement("input");
-    itemCheckbox.id = member.name;
-    myObject.appendChild(itemCheckbox);
-    itemCheckbox.type= "checkbox";
-  }
-  return myObject;
-}
+};
 
 /* ----- Main Event Listener ----- */
 
