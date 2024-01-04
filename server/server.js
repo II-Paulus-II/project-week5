@@ -40,7 +40,7 @@ function getList(level, table) {
     const item = db.prepare(`SELECT * FROM items WHERE id=${id}`).all();
     itemData.push(item[0]);
   });
-  const data = [levelInfo, itemData];
+  const data = [levelInfo[0], itemData];
   return data;
 };
 
