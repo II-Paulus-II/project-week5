@@ -71,7 +71,7 @@ function createHtmlObject(member) {
     const itemCheckbox = document.createElement("input");
     itemCheckbox.id = member.name;
     myObject.appendChild(itemCheckbox);
-    myObject.type= "radio";
+    myObject.type= "checkbox";
   }
   return myObject;
 }

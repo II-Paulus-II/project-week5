@@ -94,3 +94,27 @@ let count = db.prepare(`
 `).all();
 
 console.log(count); */
+const scaling = ['a', 'b', 'c'];
+function getRandomElement(scaling) {
+  let randomIndex = Math.floor(Math.random() * array.length);
+  let randomElement= getRandomElement(scaling)
+  return array[randomIndex];
+  
+}
+
+
+function difficultyscalingdecider(randomElement) {
+if (randomElement = "c"){
+
+//append array amount ++  / 
+// remove c from scaling 
+//level++
+}
+else if (randomElement = "b"){
+//time - 5
+//level++
+}
+else {
+//level++
+}
+}
