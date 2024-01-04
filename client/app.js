@@ -19,9 +19,9 @@ let furnitureArray = [
 
 /* ----- DOM Objects ----- */ 
 
-const gameScreen = document.getElementById('gameScreen');
-let startButton = document.getElementById('startButton');
-let startButton1 = document.getElementById('startButton1');
+const gameScreen = document.getElementById("gameScreen");
+const startButton = document.getElementById("startButton");
+const startButton1 = document.getElementById("startButton1");
 
 /* ----- Global Game Variables ----- */
 
@@ -39,12 +39,12 @@ function shuffleArray(array) {
   return array;
 };
 
-/* ----- Create HTML ----- */
+/* ----- Create HTML & Form Objects ----- */
 
 function createHtmlObject(member) {
   let myObject = document.createElement("div");
   myObject.classList.add("itemContainer");
-  const img = document.createElement('img');
+  const img = document.createElement("img");
   img.alt = member.name;
   img.classList.add("itemImage");
   myObject.appendChild(img);
@@ -63,12 +63,29 @@ function createHtmlObject(member) {
   return myObject;
 };
 
+function createForm(list) {
+  const testForm = document.createElement("form");
+  list.forEach(function(item) {
+    const htmlObject= createHtmlObject(item)
+    testForm.appendChild(htmlObject);
+  });
+  const submitBtn = document.createElement("button");
+  submitBtn.textContent = "Press";
+  testForm.appendChild(submitBtn);
+  submitBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    const formData = new FormData(testForm);
+    const formValues = Object.fromEntries(formData);
+    console.log("form data is: ", formValues);
+  });
+  return testForm;
+};
+
 /* ----- Render Functions ----- */
 
 function renderM(memList){
-  gameScreen.innerHTML = '';
+  gameScreen.innerHTML = "";
   const memlist = shuffleArray(memList)
-  
   memlist.forEach(function(item) {
     let htmlObject= createHtmlObject(item)
     gameScreen.appendChild(htmlObject)
@@ -76,15 +93,10 @@ function renderM(memList){
 };
 
 
-function renderT(memList){
-  const tForm = document.createElement('form')
-  gameScreen.innerHTML = '';
-  const memlist = shuffleArray(memList)
-  
-  memlist.forEach(function(item) {
-    const htmlObject= createHtmlObject(item)
-    tForm.appendChild(htmlObject)
-  });
+function renderT(items){
+  gameScreen.innerHTML = "";
+  const itemlist = shuffleArray(items);
+  const tForm = createForm(itemlist);
   gameScreen.appendChild(tForm);
 };
 
@@ -101,9 +113,9 @@ async function Game() {
         },
         body: JSON.stringify(gameLevel),
       });
-      const memList = await responseM.json();
-      //console.log(memList[1]);
-      renderM(memList[1]);
+      const memData = await responseM.json();
+      renderM(memData[1]);
+      //SET TIMEOUT
       break;
     case 2:
       console.log("game is running at stage 2");
@@ -114,10 +126,8 @@ async function Game() {
         },
         body: JSON.stringify(gameLevel),
       });
-      const testList = await responseT.json();
-      //console.log(testList);
-      renderT(testList[1]);
-
+      const testData = await responseT.json();
+      renderT(testData[1]);
       break;
     case 3:
       break;
@@ -126,17 +136,18 @@ async function Game() {
 
 /* ----- Main Event Listener ----- */
 
-startButton.addEventListener('click', async function(event) {
+startButton.addEventListener("click", async function(event) {
   gameRunning = true;
   //make button display none 
   Game();
 
 });
 
-startButton1.addEventListener('click', function() { 
+startButton1.addEventListener("click", function() { 
   gameRunning = true;
   gameState = 2;
   Game();
 
 });
+
 
