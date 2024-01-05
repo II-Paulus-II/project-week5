@@ -67,6 +67,7 @@ function createHtmlObject(member) {
   myObject.classList.add("itemContainer");
   const img = document.createElement("img");
   img.alt = member.name;
+  img.src = member.src;
   img.classList.add("itemImage");
   myObject.appendChild(img);
   if(gameState == 1) {
