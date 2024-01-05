@@ -21,7 +21,6 @@ let furnitureArray = [
 
 const gameScreen = document.getElementById("gameScreen");
 const startButton = document.getElementById("startButton");
-const startButton1 = document.getElementById("startButton1");
 
 /* ----- Global Game Variables ----- */
 
@@ -148,13 +147,23 @@ function renderR(resultData) {
   gameScreen.innerHTML = "";
   const resultsRender = createLevelResult(resultData);
   gameScreen.appendChild(resultsRender);
-  //commonItems.length;
 };
 
 function renderEnd() {
   gameScreen.innerHTML = "end game";
+  gameRunning = false;
+  renderButton();
 }
 
+function renderButton(){
+  if(gameRunning == true) {
+    console.log("i should be adding class to button");
+    startButton.classList.add("displayNone");
+  }
+  if(gameState == 4 ) {
+    startButton.classList.remove("displayNone");
+  }
+}
 /* ----- Main Game Function ----- */
 
 async function Game() {
@@ -179,6 +188,7 @@ async function Game() {
           startTest();
         }, memData[0].time);
       }
+      renderButton();
       break;
     case 2:
       console.log("game is running at stage 2");

@@ -5,6 +5,8 @@
 }
 
 .pageBody {
+  width: 100%;
+  height: 100vh;
   display: grid;
   grid-template-rows: 1fr 8fr 1fr;
   grid-template-columns: 1fr;
@@ -18,4 +20,39 @@
   display: grid;
   grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 1fr;
+}
+
+.gameScreenSection {
+  position: relative;
+}
+
+.gameScreen {
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  background-color: #f2f2f2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+.gameTitle {
+  font-family: 'Brush Script MT', cursive;
+  color: blue;
+  text-align: center;
+}
+
+#startButton {
+  position: absolute;
+  top:50%; 
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.displayNone {
+  display: none;
 }
