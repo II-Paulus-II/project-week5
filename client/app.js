@@ -28,6 +28,7 @@ const startButton1 = document.getElementById("startButton1");
 let gameRunning = false;
 let gameState = 1; 
 let gameLevel = { level: 1 };
+let maxLevel = 1;
 let answer = [];
 
 /* ----- Game Logic Functions ----- */
@@ -42,16 +43,23 @@ function shuffleArray(array) {
 
 function saveAnswer(event) {
     let checked = document.querySelectorAll('[name="checkbox"]:checked');
-    //let fData = [];
     answer = [];
     checked.forEach(function (datapoint) {
       answer.push(datapoint.value);
     });
-    //console.log(fData) //These are the keys to search database
-    //console.log(answer);
     gameState = 3;
     Game();
-}
+};
+
+function startTest() {
+  gameState = 2;
+  Game();
+};
+
+function endGame() {
+  gameState = 4;
+  Game();
+};
 
 /* ----- Create HTML & Form Objects ----- */
 
@@ -96,34 +104,53 @@ function createForm(list) {
   return testForm;
 };
 
+function createLevelResult(data) {
+  const resultDisplay = document.createElement("div");
+  resultDisplay.classList.add("resultscontainer");
+  const resultText = document.createElement("p");
+  resultText.classList.add("resultstext");
+  resultText.textContent = "display the result here";
+  const nextLevelBtn = document.createElement("button");
+  nextLevelBtn.textContent = "next level";
+  nextLevelBtn.addEventListener("click", function() {
+    gameState = 1;
+    gameLevel.level ++;
+    Game();
+  });
+  resultDisplay.appendChild(resultText);
+  resultDisplay.appendChild(nextLevelBtn);
+  return resultDisplay;
+}
+
 /* ----- Render Functions ----- */
 
-function renderM(memList){
+function renderM(memList) {
   gameScreen.innerHTML = "";
   const memlist = shuffleArray(memList)
   memlist.forEach(function(item) {
-    let htmlObject= createHtmlObject(item)
+    const htmlObject= createHtmlObject(item)
     gameScreen.appendChild(htmlObject)
   });
 };
 
 
-function renderT(items){
+function renderT(items) {
   gameScreen.innerHTML = "";
   const itemlist = shuffleArray(items);
   const tForm = createForm(itemlist);
   gameScreen.appendChild(tForm);
 };
 
-function renderR(items){
+function renderR(resultData) {
   gameScreen.innerHTML = "";
-  /*gameScreen.innerHTML = ;
-  commonItems.length;
-  gameScreen.appendChild(tForm); */
+  const resultsRender = createLevelResult(resultData);
+  gameScreen.appendChild(resultsRender);
+  //commonItems.length;
 };
-/*setTimeout(function() {
-  console.log(gamescreen.innerHTML = "Your score was: "  );
-}, 2000); */
+
+function renderEnd() {
+  gameScreen.innerHTML = "end game";
+}
 
 /* ----- Main Game Function ----- */
 
@@ -131,15 +158,26 @@ async function Game() {
   switch(gameState) {
     case 1:
       console.log("game is running at stage 1");
-      const responseM = await fetch(`${serverLocation}/beginlevel`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(gameLevel),
-      });
-      const memData = await responseM.json();
-      renderM(memData[1]);
+      if (gameLevel.level > maxLevel) {
+        endGame();
+      }
+      else {
+        const responseM = await fetch(`${serverLocation}/beginlevel`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(gameLevel),
+        });
+        const memData = await responseM.json();
+        maxLevel = Object.values(memData[2]);
+        renderM(memData[1]);
+        console.log(memData[0]);
+        console.log(memData[0].time);
+        setTimeout(function () {
+          startTest();
+        }, memData[0].time);
+      }
       //SET TIMEOUT
       break;
     case 2:
@@ -170,7 +208,11 @@ async function Game() {
       });
       const answerData = await responseA.json();
       renderR(answerData);
-
+      
+      break;
+    case 4:
+      console.log("you have reached stage 4");
+      renderEnd();
       break;
   }
 };

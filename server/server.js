@@ -19,6 +19,8 @@ const dataTwo = { name: "begintest"};
 /* ----- Get Data Logic - Needs Preparing ----- */
 
 function getList(level, table) {
+  const maxLevel = db.prepare(`SELECT max(rowid) FROM levels`).all();
+  
   const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
   const levelData = db.prepare(`SELECT * FROM ${table} WHERE id=${level}`).all();
   let itemId = [];
@@ -40,12 +42,13 @@ function getList(level, table) {
     const item = db.prepare(`SELECT * FROM items WHERE id=${id}`).all();
     itemData.push(item[0]);
   });
-  const data = [levelInfo[0], itemData];
+  const data = [levelInfo[0], itemData, maxLevel[0]];
   return data;
+
 };
 
 function checkAnswer(answer) {
-  
+  let checkedAnswer = "hello";
   return checkedAnswer;
 }
 
