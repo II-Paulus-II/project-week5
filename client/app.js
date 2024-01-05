@@ -109,7 +109,10 @@ function createLevelResult(data) {
   resultDisplay.classList.add("resultscontainer");
   const resultText = document.createElement("p");
   resultText.classList.add("resultstext");
-  resultText.textContent = "display the result here";
+  resultText.textContent = `You got ${data[0]} out of ${data[1]} right`;
+  if (data[2] != 0) {
+    resultText.textContent += ` and ${data[2]} wrong!`;
+  }
   const nextLevelBtn = document.createElement("button");
   nextLevelBtn.textContent = "next level";
   nextLevelBtn.addEventListener("click", function() {
@@ -172,13 +175,10 @@ async function Game() {
         const memData = await responseM.json();
         maxLevel = Object.values(memData[2]);
         renderM(memData[1]);
-        console.log(memData[0]);
-        console.log(memData[0].time);
         setTimeout(function () {
           startTest();
         }, memData[0].time);
       }
-      //SET TIMEOUT
       break;
     case 2:
       console.log("game is running at stage 2");
@@ -222,13 +222,6 @@ async function Game() {
 startButton.addEventListener("click", async function(event) {
   gameRunning = true;
   //make button display none 
-  Game();
-
-});
-
-startButton1.addEventListener("click", function() { 
-  gameRunning = true;
-  gameState = 2;
   Game();
 
 });

@@ -20,7 +20,6 @@ const dataTwo = { name: "begintest"};
 
 function getList(level, table) {
   const maxLevel = db.prepare(`SELECT max(rowid) FROM levels`).all();
-  
   const levelInfo = db.prepare(`SELECT * FROM levels WHERE id=${level}`).all();
   const levelData = db.prepare(`SELECT * FROM ${table} WHERE id=${level}`).all();
   let itemId = [];
@@ -47,8 +46,28 @@ function getList(level, table) {
 
 };
 
-function checkAnswer(answer) {
-  let checkedAnswer = "hello";
+function getMemoryList(level) {
+  let data = getList(level, "memory");
+  const itemObjects = data[1];
+  let itemNames = [];
+  itemObjects.forEach(function (item) {
+    itemNames.push(item.name);
+  });
+  return itemNames;
+}
+
+//Result is just going to be how many they got right
+function countCommonItems(array1, array2) {
+    let commonItems = array1.filter(item => array2.includes(item));
+    return commonItems.length;
+};
+
+function checkAnswer(level, answer) {
+  let itemNames = getMemoryList(level);
+  let memListLength = itemNames.length;
+  let commonItemsLength = countCommonItems(answer, itemNames);
+  let wrongAnswers = answer.length - commonItemsLength;
+  let checkedAnswer = [ commonItemsLength, memListLength, wrongAnswers ];
   return checkedAnswer;
 }
 
@@ -68,7 +87,6 @@ app.get("/getmemory", function (request, response) {
 //First post request to actually start a new level by requesting list of items to memorise
 app.post("/beginlevel", function (request, response) {
   const level = request.body.level;
-  //console.log(level);
   const responseData = getList(level, "memory");
   response.json(responseData);
 });
@@ -83,10 +101,8 @@ app.post("/begintest", function (request, response) {
 app.post("/submitanswer", function (request, response) {
   const level = request.body[0].level;
   const answer = request.body[1];
-  console.log(level);
-  console.log(answer);
-  const answerData = checkAnswer(answer);
-  response.json("success");
+  const answerData = checkAnswer(level, answer);
+  response.json(answerData);
 });
 
 /* ----- Server ----- */
