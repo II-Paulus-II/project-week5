@@ -155,7 +155,7 @@ function renderR(resultData) {
 };
 
 function renderEnd() {
-  gameScreen.innerHTML = "end game";
+  gameScreen.innerHTML = "GAME OVER";
   gameRunning = false;
   renderButton();
 }
