@@ -6,7 +6,7 @@
   "scripts": {
     "test": "chmod +x testendpoints.sh && ./testendpoints.sh",
     "start" : "node server.js",
-    "setup" : "node seed.js",
+    "setup" : "npm install && node seed.js",
     "clean" : "rm -rf database.db && node seed.js"
   },
   "keywords": [],
