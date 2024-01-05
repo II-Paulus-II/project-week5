@@ -123,9 +123,52 @@
 }
 
 .nextLevelBtn {
-  
+  position: absolute;
+  top:50%; 
+  left:50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;;
+  color: white;
+  font-family: 'Brush Script MT', cursive;
+  font-size: larger;
+  background-color: blue; 
+  padding: 20px; 
+  transition: transform 0.3s ease,transform 0.3s ease;; 
+  transform-origin: center;
+  cursor: pointer;
+}
+
+.nextlevelBtn:active {
+  transform: translate(-50%, -60%); 
+  color: black;                                      
+}
+
+#nextLevelBtn:hover {
+  transform: scale(1.5); 
 }
 
 .submitBtn {
-  
+  position: absolute;
+  top:50%; 
+  left:50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;;
+  color: white;
+  font-family: 'Brush Script MT', cursive;
+  font-size: larger;
+  background-color: blue; 
+  padding: 20px; 
+  transition: transform 0.3s ease,transform 0.3s ease;; 
+  transform-origin: center;
+  cursor: pointer;
+}
+
+
+.submitBtn:active {
+  transform: translate(-50%, -60%); 
+  color: black;
+}
+
+#submitBtn:hover {
+  transform: scale(1.5); 
 }
