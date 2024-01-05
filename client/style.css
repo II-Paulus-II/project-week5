@@ -53,6 +53,44 @@
   transform: translate(-50%, -50%);
 }
 
+/* ----- Styles added by APP.JS ----- */
+
 .displayNone {
   display: none;
+}
+
+.itemContainer {
+  
+}
+
+.itemImage {
+  
+}
+
+.itemName {
+  
+}
+
+.formClass {
+
+}
+
+.checkboxClass {
+  
+}
+
+.resultsContainer {
+
+}
+
+.resultsText {
+  
+}
+
+.nextLevelBtn {
+  
+}
+
+.submitBtn {
+  
 }

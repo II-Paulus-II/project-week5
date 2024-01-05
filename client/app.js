@@ -72,14 +72,15 @@ function createHtmlObject(member) {
   myObject.appendChild(img);
   if(gameState == 1) {
     const itemName = document.createElement("p");
-    itemName.classList.add("itemName");
+  itemName.classList.add("itemName");
     itemName.textContent = member.name;
     myObject.appendChild(itemName);
   }
   if(gameState == 2) {
     const itemCheckbox = document.createElement("input");
+    itemCheckbox.classList.add("checkboxClass");
     itemCheckbox.id = member.name;
-    itemCheckbox.value = member.name;
+  itemCheckbox.value = member.name;
     itemCheckbox.name = "checkbox";
     myObject.appendChild(itemCheckbox);
     itemCheckbox.type= "checkbox";
@@ -89,11 +90,13 @@ function createHtmlObject(member) {
 
 function createForm(list) {
   const testForm = document.createElement("form");
+  testForm.classList.add("formClass");
   list.forEach(function(item) {
     const htmlObject= createHtmlObject(item)
     testForm.appendChild(htmlObject);
   });
   const submitBtn = document.createElement("button");
+  submitBtn.classList.add("submitBtn");
   submitBtn.textContent = "Press";
   testForm.appendChild(submitBtn);
   testForm.addEventListener("submit", function(event) {
@@ -106,15 +109,16 @@ function createForm(list) {
 
 function createLevelResult(data) {
   const resultDisplay = document.createElement("div");
-  resultDisplay.classList.add("resultscontainer");
+  resultDisplay.classList.add("resultsContainer");
   const resultText = document.createElement("p");
-  resultText.classList.add("resultstext");
+  resultText.classList.add("resultsText");
   resultText.textContent = `You got ${data[0]} out of ${data[1]} right`;
   if (data[2] != 0) {
     resultText.textContent += ` and ${data[2]} wrong!`;
   }
   const nextLevelBtn = document.createElement("button");
   nextLevelBtn.textContent = "next level";
+  nextLevelBtn.classList.add = "nextLevelBtn";
   nextLevelBtn.addEventListener("click", function() {
     gameState = 1;
     gameLevel.level ++;
