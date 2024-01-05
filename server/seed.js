@@ -44,19 +44,6 @@ db.exec(`
   )
 `);
 
-/*furnitureArray = [
-    {name: "Chair"},
-    {name: "Table"},
-    {name: "Sofa"},
-    {name: "Bed"},
-    {name: "Desk"},
-    {name: "Cabinet"},
-    {name: "Dresser"},
-    {name: "Bookcase"},
-    {name: "Recliner"},
-    {name: "Ottoman"}
-];*/
-
 furnitureArray.forEach(function (item) {
   db.prepare(`INSERT INTO items (name, src) VALUES (?, ?)`).run(item.name, item.src);
 });
@@ -81,21 +68,21 @@ db.exec(`
 `);
 
 //Populate Table with random values 
-let numLevels = 6;
+let numLevels = 10;
 //Choose one of three levels to increment
 const scaling = ["a", "b", "c"];
 //Needed to make sure that we dont increment same level twice
-let removedElement;
+let removedElement = "";
 
 function getRandomElement(scaling) {
   let randomIndex = Math.floor(Math.random() * scaling.length);
   return scaling[randomIndex];
 }
 // Decides between either a, b or c. 
-function difficultyscalingdecider() {
+function difficultyscalingdecider(num) {
   const randomElement = getRandomElement(scaling);
   //Now that we have our random element - put last one back in the scaling array
-  if (removedElement) {
+  if (removedElement != "") {
     scaling.push(removedElement);
   }
   const elementIndex = scaling.indexOf(randomElement);
@@ -107,7 +94,7 @@ function difficultyscalingdecider() {
 function generateDifficulty () {
   let difficulty = [];
     for (let i=1; i <= numLevels; i++) {
-        const x = difficultyscalingdecider()
+        const x = difficultyscalingdecider(i)
         difficulty.push(x);
     }
   return difficulty;
@@ -122,8 +109,8 @@ function appendDifficultyArray(data) {
 };
 //
 (function createLevels(array) {
-    let memory_qty = 3;
-    let test_qty = 7
+    let memory_qty = 2;
+    let test_qty = 4;
     let time = 6000;
 
     nextLevelDifficulty.forEach(function (entry, index) {
