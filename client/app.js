@@ -1,7 +1,14 @@
 /* ----- Get Server Location ----- */
 
-let serverLocation = "http://localhost:8080"
+let serverLocation;
+
 console.log("Script Loaded");
+
+if(window.location.hostname === "localhost") {
+  serverLocation = "http://localhost:8080"
+} else {
+  serverLocation = "https://furniture-game-backend.onrender.com";
+}
 
 /* ----- Backup data for testing ----- */
 let furnitureArray = [
