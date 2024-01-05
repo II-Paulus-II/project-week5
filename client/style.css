@@ -40,6 +40,10 @@
   padding: 20px;
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
+  font-size: 4rem;
+  font-family: 'Brush Script MT', cursive;
+  color:blue;
+  text-align: center;
 }
 .gameTitle {
   font-family: 'Brush Script MT', cursive;
@@ -52,7 +56,7 @@
   position: absolute;
   top:50%; 
   left:50%;
-  transform: translate(-50%, -50%);
+  /*transform: translate(-50%, -50%); */
   border-radius: 10px;;
   color: white;
   font-family: 'Brush Script MT', cursive;
@@ -65,12 +69,13 @@
 }
 
 #startButton:active {
-  transform: translate(-50%, -60%); 
+  transform: translate(-50%, -50%); 
   color: black;
 }
 
 #startButton:hover {
   transform: scale(1.5); 
+  
 }
 
 
@@ -99,7 +104,7 @@
 }
 
 .itemImage {
-  
+  max-width: 270px;
 }
 
 .itemName {
@@ -107,26 +112,32 @@
 }
 
 .formClass {
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .checkboxClass {
-  
+  height: 20px;
+  width: 20px;
 }
 
 .resultsContainer {
-
+    
 }
 
 .resultsText {
-  
+  font-family: 'Brush Script MT', cursive;
+  color: blue;
+  text-align: center;
+  font-size: 3rem;
+  padding-top: 20px;;
 }
 
-.nextLevelBtn {
+.resultsContainer button {
   position: absolute;
   top:50%; 
   left:50%;
-  transform: translate(-50%, -50%);
+  /*transform: translate(-50%, -50%); */
   border-radius: 10px;;
   color: white;
   font-family: 'Brush Script MT', cursive;
@@ -138,20 +149,20 @@
   cursor: pointer;
 }
 
-.nextlevelBtn:active {
-  transform: translate(-50%, -60%); 
+.resultsContainer button:active {
+  transform: translate(-50%, -50%); 
   color: black;                                      
 }
 
-#nextLevelBtn:hover {
+.resultsContainer button:hover {
   transform: scale(1.5); 
 }
 
 .submitBtn {
   position: absolute;
-  top:50%; 
+  top:70%; 
   left:50%;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
   border-radius: 10px;;
   color: white;
   font-family: 'Brush Script MT', cursive;
@@ -165,10 +176,10 @@
 
 
 .submitBtn:active {
-  transform: translate(-50%, -60%); 
+  transform: translate(-50%, -50%); 
   color: black;
 }
 
-#submitBtn:hover {
+.submitBtn:hover {
   transform: scale(1.5); 
 }
